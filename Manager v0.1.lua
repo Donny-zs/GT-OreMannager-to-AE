@@ -1,4 +1,5 @@
 --Установи ме интерфейс, к нему вплотную адаптер с датабазой внутри и транспозер. На транспозер сверху поставь обычный сундук, и с любой стороны один другой блок инвентаря 
+--9й слой интерфейса необходимо оставлять пустым, туда транспозер будет сгружать результат работы
 
 local component = require("component")
 
@@ -20,12 +21,18 @@ local function Insert(sourceSide,sinkSide,count,sourceSlot,sinkSlot,countLimit) 
   end
   tr.transferItem(sourceSide,sinkSide,count,sourceSlot,sinkSlot)
   os.sleep(1)
-  tr.transferItem(sinkSide,sourceSide,count,sinkSlot,9)
+  
   return(true) --По хорошему надо возвращать true замешанный на том что выдаёт transferItem - (counter == transferItem)
 end
 
+local function Eject(sourceSide,sinkSide,count,sourceSlot,sinkSlot,countLimit) --забирает из целевого интерфейса предмет
+  tr.transferItem(sinkSide,sourceSide,count,sinkSlot,9) --Вынимает результат работы
+end
+
+
 local function SearchInAe()
-ItemsInNetwork = controller.getItemsInNetwork
+ItemsInNetwork = controller.getItemsInNetwork()
+  for i,v in pairs(coolPlace[i]) do
 
 --[[ обращение за всеми предметами в сети в виде таблицы с таблицами
 component.me_controller.getItemsInNetwork()
