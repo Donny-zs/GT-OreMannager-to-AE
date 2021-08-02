@@ -2,6 +2,27 @@ local component = require("component")
 
 
 
+--Переменные и имена
+local tr = component.transposer
+local controller = component.me_controller
+
+local ItemsInNetwork = {} --Массив для хранения содержимого АЕ
+
+
+--Массив настроек, загружаемый из файла данных
+
+
+local function Insert(sourceSide,sinkSide,count,sourceSlot,sinkSlot,countLimit) --Выводит из интерфейса транспозером в целевой интерфейс предмет с проверками
+  if  countLimit > tr.getStackInSlot(2,7).size  then    --проверяет размер стака в интерфейсе
+    return(false)
+  end
+  tr.transferItem(sourceSide,sinkSide,count,sourceSlot,sinkSlot)
+  os.sleep(1)
+  return(true) --По хорошему надо возвращать true замешанный на том что выдаёт transferItem - (counter == transferItem)
+end
+
+local function SearchInAe()
+ItemsInNetwork = controller.getItemsInNetwork
 
 --[[ обращение за всеми предметами в сети в виде таблицы с таблицами
 component.me_controller.getItemsInNetwork()
@@ -35,6 +56,9 @@ compareStackToDatabase(1,2,db,3,false), где: 1 - сундук сверху, 2
 Получить в виде таблицы все внутри инвенторя
 component.transposer.getAllStacks(сторона транспозера):getAll()
 
+Получить в виде таблицы все внутри ме сети
+component.me_controller.getItemsInNetwork()
+
 ------- Прочее
 Одноблоки грегтека имеют неиспользуемые игроком слоты с 1 до 4
-Транспозер не может взаимодействовать напрямую с одноблоками грега
+Транспозер может взаимодействовать напрямую с одноблоками грега но не может забирать из вводного слота что либо
