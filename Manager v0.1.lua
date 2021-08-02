@@ -1,3 +1,5 @@
+--Установи ме интерфейс, к нему вплотную адаптер с датабазой внутри и транспозер. На транспозер сверху поставь обычный сундук, и с любой стороны один другой блок инвентаря 
+
 local component = require("component")
 
 
@@ -18,6 +20,7 @@ local function Insert(sourceSide,sinkSide,count,sourceSlot,sinkSlot,countLimit) 
   end
   tr.transferItem(sourceSide,sinkSide,count,sourceSlot,sinkSlot)
   os.sleep(1)
+  tr.transferItem(sinkSide,sourceSide,count,sinkSlot,9)
   return(true) --По хорошему надо возвращать true замешанный на том что выдаёт transferItem - (counter == transferItem)
 end
 
